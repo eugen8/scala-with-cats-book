@@ -18,6 +18,10 @@ trait JsonWriter[A] {
 • implicit values: type class instances;
 • implicit parameters: type class use; and
 • implicit classes: optional utilities that make type classes easier to use.
+*
+* Other great (better) resources to understand type classes: https://danielwestheide.com/blog/the-neophytes-guide-to-scala-part-12-type-classes/
+* http://baddotrobot.com/blog/2016/08/13/type-classes/
+*
 * */
 
 /* Cats uses type class patterns: Interface Objects and Interface Syntax */
@@ -26,4 +30,35 @@ trait JsonWriter[A] {
 object Json {
   def toJson[A](value: A)(implicit w: JsonWriter[A]): Json =
     w.write(value)
+}
+
+final case class Person(name: String, email: String)
+
+//interface objects
+object JsonWriterInstances {
+  implicit val stringWriter: JsonWriter[String] =
+    (value: String) => JsString(value)
+  //equivalent to new JsoWriter[String] { def write (value: String): Json = JsString(value) } but using "single abstract method"
+
+  implicit val personWriter: JsonWriter[Person] =
+    (value: Person) => JsObject(Map(
+      "name" -> JsString(value.name),
+      "email" -> JsString(value.email),
+    ))
+}
+
+//interface sytax
+object JsonSyntax {
+  implicit class JsonWriterOps[A](value: A) {
+    def toJson(implicit w: JsonWriter[A]): Json = {
+      w.write(value)
+    }
+  }
+}
+object JsonSyntax2 {
+  implicit class JsonWriterOps2[A](value:A){
+    def toJson(implicit w: JsonWriter[A]): Json = {
+      w.write(value)
+    }
+  }
 }
