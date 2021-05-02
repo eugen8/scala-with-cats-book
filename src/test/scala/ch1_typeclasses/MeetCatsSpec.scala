@@ -43,7 +43,7 @@ class MeetCatsSpec extends AnyFlatSpec with Matchers {
     println(showString)
   }
 
-  "defining custom instances" should "convert a date with custom implicit" in {
+  "show when defining custom instances" should "convert a date with custom implicit" in {
     //this is how Date -> Show[Date] implicit is defined in custom way
     implicit val dateShow: Show[Date] =
       (d: Date) => s"${d.getTime}ms since the epoch"// instead of using Singe Abstract Method could have used: new Show[Date] {def show(d:Date) = s"${d.getTime}ms since the epoch"}
@@ -62,6 +62,25 @@ class MeetCatsSpec extends AnyFlatSpec with Matchers {
     val showDate: Show[Date] = Show.apply[Date]
     val now = showDate.show(new Date(1619960291966L)) //1619960291966ms since the epoch
     now shouldBe "1619960291966ms since the epoch"
+  }
+
+  it should "implicitly convert when importing syntax" in {
+    implicit val dateShow: Show[Date] =
+      Show.show(date =>s"${date.getTime}ms since the epoch")
+    import cats.syntax.show._
+    println(new Date().show)
+    //1620414850654ms since the epoch
+
+  }
+
+  "import all things cats" should "make everything work" in {
+    import cats._
+    import cats.implicits._ //imports all of the standard type class instances and all of the syntax in one go.
+
+    implicit val dateShow: Show[Date] =
+      Show.show(date =>s"${date.getTime}ms since the epoch")
+    println(new Date().show)
+    //1620414850654ms since the epoch
   }
 
   "equality" should "compare ints values" in {
