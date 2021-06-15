@@ -11,3 +11,5 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.7" % "test"
 scalacOptions ++= Seq(
   "-Xfatal-warnings"
 )
+
+addCompilerPlugin("org.typelevel" % "kind-projector" % "0.11.3" cross CrossVersion.full)
