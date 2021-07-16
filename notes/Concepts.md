@@ -80,6 +80,15 @@ Higher kinds - are like types for types. They describe the number of "holes" ink
 
 Applicative extends Functor with an ap and pure method.
 
-pure wraps the value into the type constructor
+pure wraps the value into the type constructor.
+
+Note on that: it was confusing to me what's the difference
+between `pure` and `lift`. This definition from [typelevel](https://typelevel.org/cats/typeclasses/applicative.html) makes 
+it pretty clear. 
+When you have an effect, or a type constructor F[_] pure will wrap
+the value `a: A` into that F[A], pretty simple, huh. 
+`Lift` on the other hand can take other things and return an object of that F[A].
+Lift can do some calculations or processing, rather than simply wrapping the value into a type constructor. 
+
 
 

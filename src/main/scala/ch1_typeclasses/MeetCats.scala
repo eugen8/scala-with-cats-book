@@ -1,8 +1,9 @@
 package ch1_typeclasses
 
 import java.util.Date
-
 import cats.Eq
+
+import scala.concurrent.Future
 
 object MeetCats {
   def compareDates(date: Date, date1: Date) = {
