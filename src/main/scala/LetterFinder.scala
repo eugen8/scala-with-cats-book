@@ -1,8 +1,8 @@
 import scala.collection.mutable.{Map => MutMap}
 
 object LetterFinder extends App {
-  //This has O(n) complexity. Still not completely satisfied with mutable map, will think of a better way
-  //make it in a more functional style
+  //This has O(n) complexity. Still not completely satisfied with mutable map, will think of a better way to
+  //implement it in a more functional style
   def findBetterUnique(text: String): Option[String] = {
     val charsMap = text.foldLeft(MutMap[Char, Int]())((ag, c) => {
       ag.get(c) match {
